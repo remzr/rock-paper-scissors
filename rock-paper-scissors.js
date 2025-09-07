@@ -1,5 +1,5 @@
-let humanScore;
-let computerScore;
+let humanScore = 0;
+let computerScore = 0;
 
 //Functions to set human and computer choice of rock, paper or scissors
 
@@ -23,8 +23,7 @@ function getComputerChoice() {
 }
 
 function roundResult(humanChoice, computerChoice) {
-    //console.log(`Round started. Human-Score: ${computerScore} ComputerScore: ${humanScore}`);
-
+    
     //In case of a draw
     if (humanChoice == computerChoice) {
         return(`${humanChoice} against ${computerChoice}. Its a draw!`);
@@ -62,24 +61,21 @@ function roundResult(humanChoice, computerChoice) {
     }
 }
 
-function roundPoints (computerScore, humanScore) {
+function roundPoints (humanScore, computerScore) {
     if (computerScore > humanScore) {
-        return(`Computer has ${computerScore}, Player has ${humanScore} Points. Computer wins!`);
+        return(`Computer has ${computerScore}, Player has ${humanScore} Points.`);
     } else {
-        return(`Player has ${humanScore} Points, Computer has ${computerScore}. Player wins!`);
+        return(`Player has ${humanScore} Points, Computer has ${computerScore}.`);
     }
 }
 
 //Game Loop
-function playRound(humanChoice) {
-    
-    humanScore = 0;
-    computerScore = 0;
+function playRound(humanChoice) {  
     
     let computerSelection = getComputerChoice();
     let humanSelection = humanChoice.toLowerCase();   
-   
-    postResult(roundResult(computerSelection, humanSelection), roundPoints(humanScore, computerScore));
+    
+    postResult(roundResult(humanSelection, computerSelection), roundPoints(humanScore, computerScore));
 }
 
 //Trigger game with buttons
@@ -95,6 +91,8 @@ buttons.forEach((button) => {
 
 //Add results
 function postResult (resultTitle, resultTxt) {
+    const roundResultSection = document.querySelector("#result-section");
+
     const roundResultBox = document.createElement("div");
         roundResultBox.style.colorBackground = "grey";
         roundResultBox.style.padding = "16px";
@@ -102,13 +100,31 @@ function postResult (resultTitle, resultTxt) {
 
     const roundResultTitle = document.createElement("h3");
     const roundResultTxt = document.createElement("p");
+    const replayButton = document.createElement("Button");
+        replayButton.style.padding = "8px";
+        replayButton.setAttribute("onClick","window.location.reload();");
 
     roundResultBox.appendChild(roundResultTitle);
     roundResultBox.appendChild(roundResultTxt);
 
-    roundResultTitle.textContent = resultTitle;
-    roundResultTxt.textContent = resultTxt;
+    if (humanScore == 5) {
+        roundResultTitle.textContent = "Player has 5 points and wins the game!";
+        roundResultTxt.textContent = "Wanna try again?";
+        roundResultBox.appendChild(replayButton);
+        replayButton.textContent = "New Game";
 
-    document.body.append(roundResultBox);
+    } else if (computerScore == 5) {
+        roundResultTitle.textContent = "Computer has 5 points and wins the game!";
+        roundResultTxt.textContent = "Wanna try again?";
+        roundResultBox.appendChild(replayButton);
+        replayButton.textContent = "New Game";        
+    } else {
+        roundResultTitle.textContent = resultTitle;
+        roundResultTxt.textContent = resultTxt;
+    }
+
+    roundResultSection.prepend(roundResultBox);
+    document.body.append(roundResultSection);
+
 };
 
