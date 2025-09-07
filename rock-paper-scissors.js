@@ -27,38 +27,46 @@ function roundResult(humanChoice, computerChoice) {
 
     //In case of a draw
     if (humanChoice == computerChoice) {
-        console.log(`${humanChoice} against ${computerChoice}. Its a draw!`);
+        return(`${humanChoice} against ${computerChoice}. Its a draw!`);
     }
 
     //Player wins
     else if (humanChoice == "rock" && computerChoice == "scissors") {
         humanScore++;
-        console.log(`${humanChoice} beats ${computerChoice}. Player wins!`);
+        return(`${humanChoice} beats ${computerChoice}. Player wins!`);
     }
     else if (humanChoice == "scissors" && computerChoice == "paper") {
         humanScore++;
-        console.log(`${humanChoice} beats ${computerChoice}. Player wins!`);
+        return(`${humanChoice} beats ${computerChoice}. Player wins!`);
     }
     else if (humanChoice == "paper" && computerChoice == "rock") {
         humanScore++;
-        console.log(`${humanChoice} beats ${computerChoice}. Player wins!`);
+        return(`${humanChoice} beats ${computerChoice}. Player wins!`);
     }
 
     //Computer wins
     else if (humanChoice == "rock" && computerChoice == "paper") {
         computerScore++;
-        console.log (`${computerChoice} beats ${humanChoice}. Computer wins!`);
+        return(`${computerChoice} beats ${humanChoice}. Computer wins!`);
     }
     else if (humanChoice == "scissors" && computerChoice == "rock") {
         computerScore++;
-        console.log (`${computerChoice} beats ${humanChoice}. Computer wins!`);
+        return(`${computerChoice} beats ${humanChoice}. Computer wins!`);
     }
     else if (humanChoice == "paper" && computerChoice == "scissors") {
         computerScore++;
-        console.log (`${computerChoice} beats ${humanChoice}. Computer wins!`);
+        return(`${computerChoice} beats ${humanChoice}. Computer wins!`);
     }
     else {
-        console.log (`There might have been a Typo.`);
+        return(`There might have been a Typo.`);
+    }
+}
+
+function roundPoints (computerScore, humanScore) {
+    if (computerScore > humanScore) {
+        return(`Computer has ${computerScore}, Player has ${humanScore} Points. Computer wins!`);
+    } else {
+        return(`Player has ${humanScore} Points, Computer has ${computerScore}. Player wins!`);
     }
 }
 
@@ -70,18 +78,11 @@ function playRound(humanChoice) {
     
     let computerSelection = getComputerChoice();
     let humanSelection = humanChoice.toLowerCase();   
-
-    console.log(`${humanSelection} VS ${computerSelection}`)       
-    roundResult(computerSelection, humanSelection);
-
-    if (computerScore > humanScore) {
-        console.log(`Computer has ${computerScore}, Player has ${humanScore} Points. Computer wins!`);
-    } else {
-        console.log(`Player has ${humanScore} Points, Computer has ${computerScore}. Player wins!`);
-    }
+   
+    postResult(roundResult(computerSelection, humanSelection), roundPoints(humanScore, computerScore));
 }
 
-//Functionality
+//Trigger game with buttons
 
 const buttons = document.querySelectorAll("button");
 
@@ -91,3 +92,23 @@ buttons.forEach((button) => {
         playRound(text);
     });
 });
+
+//Add results
+function postResult (resultTitle, resultTxt) {
+    const roundResultBox = document.createElement("div");
+        roundResultBox.style.colorBackground = "grey";
+        roundResultBox.style.padding = "16px";
+        roundResultBox.style.textAlign = "center";
+
+    const roundResultTitle = document.createElement("h3");
+    const roundResultTxt = document.createElement("p");
+
+    roundResultBox.appendChild(roundResultTitle);
+    roundResultBox.appendChild(roundResultTxt);
+
+    roundResultTitle.textContent = resultTitle;
+    roundResultTxt.textContent = resultTxt;
+
+    document.body.append(roundResultBox);
+};
+
