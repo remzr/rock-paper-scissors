@@ -63,14 +63,14 @@ function roundResult(humanChoice, computerChoice) {
 }
 
 //Game Loop
-function playRound() {
+function playRound(humanChoice) {
     
     humanScore = 0;
     computerScore = 0;
     
     let computerSelection = getComputerChoice();
-    let humanSelection = getHumanChoice();
-        
+    let humanSelection = humanChoice.toLowerCase();   
+
     console.log(`${humanSelection} VS ${computerSelection}`)       
     roundResult(computerSelection, humanSelection);
 
@@ -81,4 +81,13 @@ function playRound() {
     }
 }
 
-playRound();
+//Functionality
+
+const buttons = document.querySelectorAll("button");
+
+buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+        let text = event.currentTarget.innerText;
+        playRound(text);
+    });
+});
