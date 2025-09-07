@@ -63,19 +63,16 @@ function roundResult(humanChoice, computerChoice) {
 }
 
 //Game Loop
-function playGame() {
+function playRound() {
     
     humanScore = 0;
     computerScore = 0;
     
-    for (let i = 0; i < 5; i++) {
+    let computerSelection = getComputerChoice();
+    let humanSelection = getHumanChoice();
         
-        let computerSelection = getComputerChoice();
-        let humanSelection = getHumanChoice();
-        
-        console.log(`${humanSelection} VS ${computerSelection}`)       
-        roundResult(computerSelection, humanSelection);
-        }
+    console.log(`${humanSelection} VS ${computerSelection}`)       
+    roundResult(computerSelection, humanSelection);
 
     if (computerScore > humanScore) {
         console.log(`Computer has ${computerScore}, Player has ${humanScore} Points. Computer wins!`);
@@ -84,4 +81,4 @@ function playGame() {
     }
 }
 
-playGame();
+playRound();
